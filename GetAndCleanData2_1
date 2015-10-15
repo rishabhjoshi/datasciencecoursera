@@ -1,0 +1,27 @@
+#WONT WORK AS A SCRIPT. RUN EACH COMMAND IN TERMINAL
+library(httr)
+library(base64enc)
+library(jsonlite)
+
+
+#find oauth for github'
+oauth_endpoints("github")
+
+#make application
+myapp <- oauth_app("github", key="YOUR APPLICATION KEY",secret="YOUR APPLICATION SECRET")
+
+#get credentials
+github_token <- oauth2.0_token(oauth_endpoints("github"), myapp, cache=FALSE)
+
+#use API
+gtoken <- config(token = github_token)
+repo <- GET("https://api.github.com/users/jtleek/repos", gtoken)
+stop_for_status(repo)
+
+#DATA
+json1 <- content(repo)
+json2 <- jsonlite::fromJSON(toJSON(json1))
+json2
+
+#ANSWER
+json2$created_at[json2name=="datasharing"]
